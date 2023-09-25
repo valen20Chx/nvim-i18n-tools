@@ -67,12 +67,12 @@ local function get_translation_for_key(key)
       result = result[part]
     else
       print("i18n : Not found " .. part)
-      result = "i18n : Not found"
+      result = "[error] Not found"
     end
   end
 
   if type(result) ~= "string" then
-    result = "i18n : Not a string"
+    result = "[error] Not a string"
   end
 
   return result
@@ -98,7 +98,7 @@ local function apply_translations()
     -- TODO : Check that arg is a string /["`'].*["`']/g
     local t_key = t_node[2]
     local start_row, start_col = t_key:range()
-    local replacement_text = get_translation_for_key(node_text(t_key, bufnr))
+    local replacement_text = "i18n : " .. get_translation_for_key(node_text(t_key, bufnr))
 
     -- Set virtual text for the specified range on the line
     vim.api.nvim_buf_set_extmark(bufnr, ns_id, start_row, start_col, {
@@ -115,12 +115,22 @@ local M = {
   exec = function()
     apply_translations()
   end,
+  init = function()
+    local group = vim.api.nvim_create_augroup("i18n_tools", {})
+    vim.api.nvim_create_autocmd("BufEnter", {
+      pattern = "*.{ts,js,tsx,jsx}",
+      group = group,
+      callback = function()
+        apply_translations()
+      end,
+    })
+  end,
 }
 
 -- This is for development perposes
 vim.keymap.set("n", "<leader>h", function()
   package.loaded.i18n_tools = nil
-  require("plugins.nvim-i18n-tools").exec()
+  require("plugins.nvim-i18n-tools").init()
 end)
 
 return M

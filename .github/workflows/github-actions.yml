@@ -5,8 +5,10 @@ jobs:
   express-server:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.6.0
       - run: cd tests/express
       - name: Install dependencies
         run: npm ci

@@ -16,6 +16,12 @@ local function get_t_calls(bufnr, start, stop)
   local language_tree = vim.treesitter.get_parser(bufnr)
   local syntax_tree = language_tree:parse()
   local root = syntax_tree[1]:root()
+  local language = language_tree:lang()
+
+  if not vim.tbl_contains({ "javascript", "typescript" }, language) then
+    print("Language not supported")
+    return {}
+  end
 
   local query = vim.treesitter.query.parse(
     language_tree:lang(),
@@ -34,7 +40,6 @@ local function get_t_calls(bufnr, start, stop)
   local t_nodes = {}
 
   for _, match in query:iter_matches(root, bufnr, start, stop) do
-    -- TODO  : Check the types and the amount (only t and the frist string arg)
     -- TODO  : Getting the function name might be useless
     local func = match[1]
     local args = match[2]
@@ -46,13 +51,31 @@ end
 
 local function get_translation_for_key(key)
   local project_folder = vim.fn.getcwd()
-  local git_folder = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
 
-  print("pwd : " .. project_folder)
-  print("git pwd : " .. git_folder)
-  print("key : " .. key)
+  local nvim_conf_dir = vim.fn.resolve(project_folder .. "/.nvim/")
 
-  return "TODO : Add translation"
+  local conf = dofile(vim.fn.resolve(nvim_conf_dir .. "/i18n-tools.lua"))
+
+  local translations_path = vim.fn.resolve(nvim_conf_dir .. "/" .. conf.translations)
+
+  -- TODO : Cache json file as to not load it on each refresh
+  local translations = vim.fn.json_decode(vim.fn.readfile(translations_path))
+
+  local result = translations
+  for part in string.gmatch(key, "[^.]+") do
+    if result[part] then
+      result = result[part]
+    else
+      print("i18n : Not found " .. part)
+      result = "i18n : Not found"
+    end
+  end
+
+  if type(result) ~= "string" then
+    result = "i18n : Not a string"
+  end
+
+  return result
 end
 
 local bufnr_to_ns_id = {}

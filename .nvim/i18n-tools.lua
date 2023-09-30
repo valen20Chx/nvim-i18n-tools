@@ -1,5 +1,8 @@
 return {
-  -- TODO : Handle multiple projects
-  -- path to the i18n file
-  translations = "../tests/express/src/i18next/locales/en/translation.json",
+  {
+    translations = "../tests/express/src/i18next/locales/en/translation.json",
+  },
+  {
+    translations = "../tests/vite-react/src/locales/en/translation.json",
+  },
 }

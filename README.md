@@ -14,9 +14,16 @@ This is a learning opportunity for me so don't expect this to be a complete plug
 
 ## Installation
 
-I don't know yet how to make it work with Packer or LazyVim, will look it up later.
+### Lazy.nvim
 
-For now just copy the `init.lua` file.
+```lua
+return {
+  "valen20Chx/nvim-i18n-tools",
+  config = function()
+    require("nvim-i18n-tools").setup()
+  end,
+}
+```
 
 ## Usage
 

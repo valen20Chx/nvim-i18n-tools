@@ -66,7 +66,6 @@ local function get_translation_for_key(key)
     if result[part] then
       result = result[part]
     else
-      print("i18n : Not found " .. part)
       result = "[error] Not found"
     end
   end
@@ -112,12 +111,16 @@ local function apply_translations()
 end
 
 local M = {
-  exec = function()
-    apply_translations()
-  end,
   init = function()
     local group = vim.api.nvim_create_augroup("i18n_tools", {})
     vim.api.nvim_create_autocmd("BufEnter", {
+      pattern = "*.{ts,js,tsx,jsx}",
+      group = group,
+      callback = function()
+        apply_translations()
+      end,
+    })
+    vim.api.nvim_create_autocmd("BufWrite", {
       pattern = "*.{ts,js,tsx,jsx}",
       group = group,
       callback = function()

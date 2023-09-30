@@ -30,8 +30,17 @@ in it you must put a `i18n-tools.lua` file with this inside:
 
 ```lua
 return {
-  -- path to the i18n file relative to this one (i18n-tools.lua)
-  translations = "../path/to/the/translation/file.json",
+  -- First sub-directory
+  {
+    -- path to the i18n file relative to this one (i18n-tools.lua)
+    translations = "../path/to/the/translation/file.json",
+  },
+  -- Second sub-directory
+  {
+    -- path to the i18n file relative to this one (i18n-tools.lua)
+    translations = "../path/to/another/translation/file.json",
+  }
+  -- ...
 }
 ```
 

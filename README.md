@@ -5,9 +5,7 @@
 This is partially functional and is in development.
 
 | ![image](https://github.com/valen20Chx/nvim-i18n-tools/assets/33943799/ca578dfd-e2bb-45d1-96f3-e393ea8fc43b) | ![image](https://github.com/valen20Chx/nvim-i18n-tools/assets/33943799/7bf646a5-40a9-4ba1-85b8-8b2273a111b4) |
-| --- | ---|
-
-
+| ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
 
 Please feel free to contact me if you want to help, and we'll see what to do.
 This is a learning opportunity for me so don't expect this to be a complete plugin soon.
@@ -39,7 +37,6 @@ return {
 
 ## Future
 
-- Handle multi projects directory
 - Edit translations (some kind of popup)
 - Generate translations
 - Add more languages (translations files and programming language)
